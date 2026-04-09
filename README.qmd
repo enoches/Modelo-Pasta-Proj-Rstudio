@@ -1,0 +1,54 @@
+---
+title: "README: Meu Projeto"
+subtitle: "Lorem Ipsum"
+author:
+  - name: "Enoch Filho (enoches.github.io)"
+    url: "https://enoches.github.io"
+    orcid: "0000-0002-2489-856X"
+date: "2026-04-01"
+date-modified: "`{r} Sys.Date()`"
+format: 
+  html:
+    embed-resources: true
+    toc: true
+  gfm:
+    toc: true
+    title-block-style: plain
+---
+
+<!-- HTML para o site / visualização local.
+     GFM para o README.md no GitHub. -->
+
+```{r}
+#| label: options
+#| include: false
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Projeto-xyz
+
+The goal of Projeto-xyz is to ...
+
+What is special about using `README.qmd` instead of just `README.md`? You can include R chunks like so:
+
+```{r}
+#| label: cars
+summary(cars)
+```
+
+You'll still need to render `README.qmd` regularly, to keep `README.html` up-to-date.
+
+## Plots
+
+You can also embed plots, for example:
+
+```{r}
+#| label: pressure
+#| echo: false
+
+plot(pressure)
+```

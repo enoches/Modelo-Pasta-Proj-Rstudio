@@ -1,0 +1,96 @@
+---
+title: "Exemplo: De Quarto para html" 
+subtitle: "com Anexos Autocontidos" 
+author: 
+  - name: "Enoch Filho (enoches.github.io)" 
+    url: "https://enoches.github.io" 
+    orcid: "0000-0002-2489-856X" 
+date: "2025-09-01"
+date-modified: "`{r} Sys.Date()`"
+format:
+  html:
+    embed-resources: true
+    toc: true
+---
+
+# Sobre 
+Este é um exemplo de um arquivo no formato _.qmd_ (Quarto document) que, ao ser renderizado, gera uma página _html_ com os anexos contidos no próprio arquivo. Se o arquivo não fosse autocontigo, o _.qmd_ geraria uma página _html_ e uma pasta à parte com as figuras. Esse formato é útil para compartilhar análises preliminares com colaboradores. 
+
+# O banco de dados `mtcars` incluído no R
+
+```{r}
+#| label: preparativos
+#| include: false
+
+library(tidyverse)
+
+mtcars <- mtcars |>
+	rownames_to_column(var = "car_model") |>
+	as_tibble()
+```
+
+O banco de dados `mtcars` apresenta os resultados de testes de estrada para automóveis. O banco possui `{r} nrow(mtcars)` linhas e `{r} ncol(mtcars)` variáveis além da coluna com o modelo de cada carro. Na tabela seguinte vemos uma amostra com as seis primeiras observações: 
+
+```{r}
+#| label: head-mtcars
+#| echo: false
+
+head(mtcars) |> knitr::kable()
+```
+
+### Relação `qsec` (velocidade) _versus_ `hp` (cavalo-força)
+
+O gráfico abaixo sugere que quanto maior a quantidade de cavalo-força do automóvel, mais rápido ele atinge a distância de 1/4 de milha (variável `qsec`). A mesma relação direta se dá quando se observa o comportameto do automóvel: quanto mais cilindros (`cyl`), mais veloz.
+
+```{r}
+#| label: plot-qsec-wt
+#| echo: false
+
+library(ggplot2)
+
+mtcars |>
+	ggplot(
+		aes(
+			x = qsec,
+			y = hp,
+			color = factor(cyl)
+		)
+	) +
+	geom_point(size = 8, alpha = 0.7) +
+	theme_linedraw()
+```
+
+
+### Relação entre número de cilidradas e consumo de combustível
+
+Abaixo temos um código seguido por uma tabela. Trata-se do cálculo do desempenho médio em milhas por galão (mpg) segundo a quantidade de cilindradas:
+
+```{r}
+#| label: tabela
+
+library(dplyr)
+
+mtcars |>
+	summarise(
+		mpg_medio = mean(mpg),
+		.by = cyl
+	) |>
+	arrange(cyl) |>
+	knitr::kable(digits = 1)
+```
+
+# Informações técnicas
+
+## versão do Quarto instalada
+```{r}
+#| label: quarto-version
+
+quarto::quarto_version()
+```
+
+## Informações do SO e pacotes
+```{r}
+#| label: session-info
+
+utils::sessionInfo()
+```
